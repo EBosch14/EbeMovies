@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import "./App.css";
 import Movies from "./src/components/Movies";
 import { useMovies } from "./src/hooks/useMovies";
+import debounce from "just-debounce-it";
 
 export default function () {
   const [search, setSearch] = useState("");
@@ -9,10 +10,17 @@ export default function () {
   const [sort, setSort] = useState(false);
   const { movies, getMovies, loading } = useMovies({ search, sort });
 
+  const debounceGetMovies = useCallback(
+    debounce((search) => {
+      getMovies({ search });
+    }, 300),
+    [getMovies]
+  );
+
   const handleSumbit = (event) => {
     event.preventDefault();
     if (search !== "") {
-      getMovies();
+      getMovies({ search });
     } else {
       setError("Please write any movie.");
     }
@@ -21,7 +29,8 @@ export default function () {
   const handleChange = (event) => {
     const input = event.target.value;
     if (input.startsWith(" ")) return;
-    setSearch(event.target.value);
+    setSearch(input);
+    debounceGetMovies(input);
     setError(null);
   };
 
