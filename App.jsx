@@ -67,7 +67,7 @@ export default function () {
         </form>
         {error && <p className="error">{error}</p>}
       </header>
-      <main>{loading ? <p>Loading...</p> : <Movies movies={movies} />}</main>
+      <main>{loading ? <p>Loading...</p> : <Movies movies={movies} search={search} />}</main>
     </div>
   );
 }
