@@ -2,7 +2,7 @@ const API_TOKEN = "d6c303c9";
 
 export async function searchMovies({ search }) {
   try {
-    const response = await fetch(`http://www.omdbapi.com/?apikey=${API_TOKEN}&s=${search}`);
+    const response = await fetch(`https://www.omdbapi.com/?apikey=${API_TOKEN}&s=${search}`);
     const json = await response.json();
     const movies = json.Search;
 
